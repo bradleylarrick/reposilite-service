@@ -57,6 +57,7 @@ $
 ```
 2. Create the directories required for the service and set the owner to the ID created
 above:
+
 ```
 $ mkdir /usr/local/reposilite
 $ chown repo:repo /usr/local/reposilite
@@ -75,6 +76,7 @@ application database and the third is for logging.
 3. Download the latest version of the Reposilite jar from https://github.com/dzikoysk/reposilite/releases
 into the application directory created above (`/usr/local/reposilite`). Set the
 owner and permissions of the jar file:
+
 ```
 $ curl https://maven.reposilite.com/releases/com/reposilite/reposilite/3.5.11/reposilite-3.5.11-all.jar > /usr/local/reposilite/reposilite-3.5.11.jar
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -85,16 +87,14 @@ $ chmod 640 /usr/local/reposilite/reposilite-3.5.11.jar
 $
 ```
 4. Create a symbolic link for the jar file (this makes upgrading easier):
+
 ```
 $ ln -s /usr/local/reposilite/reposilite-3.5.11.jar /usr/local/reposilite/reposilite.jar
 $
 ```
-
 5. Copy a configuration file into the application directory (`/usr/local/reposilite`).
 A sample script is provided with this project. Update the script as appropriate (usually
 just changing the service port value).
-<br>
-<br>
 6. Copy the `reposilite` script into the `/usr/local/etc/rc.d` directory and add the following
 to `/etc/rc.conf`:
 
