@@ -1,0 +1,59 @@
+#!/bin/sh
+
+# PROVIDE: reposilite
+# REQUIRE: NETWORKING SYSLOG
+# KEYWORD: shutdown
+#
+# Add the following lines to /etc/rc.conf to enable reposilite:
+#
+# reposilite_enable="YES"
+#
+# reposilite_user
+#   Set to "repo" by default.
+#   Set the user ID for the process.
+# 
+# reposilite_jar
+#   Set to "/usr/local/reposilite/reposilite.jar" by default.
+#   Set the location of the reposilite jar file.
+# 
+# reposilite_config
+#   Set to "/usr/local/reposilite/configuration.cdn" by default.
+#   Set the location of the reposilite configuration file.
+#
+# reposilite_wd
+#   Set to "/var/db/reposilite" by default.
+#   Set the location for the reposilite working directory.
+#
+# reposilite_log
+#   Set to "/var/log/reposilite" by default.
+#   Set the location to run reposilite.
+#
+
+. /etc/rc.subr
+
+name="reposilite"
+rcvar="reposilite_enable"
+start_cmd="reposilite_start"
+
+load_rc_config $name
+
+: ${reposilite_enable="NO"}
+: ${reposilite_user="repo"}
+: ${reposilite_jar="/usr/local/reposilite/reposilite.jar"}
+: ${reposilite_config="/usr/local/reposilite/configuration.cdn"}
+: ${reposilite_wd="/var/db/reposilite"}
+: ${reposilite_log="/var/log/reposilite"}
+ 
+pidfile="/var/run/${name}.pid"
+procname="/usr/local/openjdk21/bin/java"
+command=/usr/sbin/daemon
+
+command_args="-f -u $reposilite_user -p $pidfile $procname -Xmx64M -jar $reposilite_jar -lc $reposilite_config -wd $reposilite_wd"
+
+reposilite_start()
+{
+	cd $reposilite_log
+	$command $command_args
+}
+
+run_rc_command "$1"
